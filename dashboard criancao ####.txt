@@ -1,0 +1,151 @@
+criando dashboard angular 07-10-2021
+
+ng new dashboard
+-entra na pasta e :
+ng serve
+remove os testes em specs
+coloca strict:false
+-- observar o zone.js em package.json(trabalha com navegador)
+-Zone observa aas apis do navegador em tempos em tempos.
+-as vezes os graficos nao exibem por causa de versoes
+-imcompativeis do google.
+
+instala um pacote especifico do rxjs,pro observable:
+npm install rxjs-compat --save
+-se aparecer erros e criticos
+npm audit fix  , mas nao resolve os erros.
+
+-criacao do modulo de dashboard
+ng g module dashboard
+
+-dentro do dashboard cria index.ts e exporta:
+export * from './dashboard.module';
+
+no app.module.ts importa o modulo criado
+---------------------------------------
+import { DashboardModule } from './dashboard';
+
+
+ imports: [
+    BrowserModule,
+    DashboardModule
+
+  ],
+
+-----------------------------------
+so vai ter um componente no projeto.
+-criar componente dentro da pasta dasshboard,com 5 arquivos automaticos
+ng g component dashboard
+
+faz exportacoes dos componentes no index.ts.
+export * from './dashboard.module';
+export * from './dashboard.component';  <-- nva linha
+
+no dasshboard.component.ts  importa e exporta quando nao usa modulo de rotas exporta:
+---------------------------------------------------
+import { DashboardComponent } from './dashboard.component';
+
+@NgModule({
+  declarations: [
+    DashboardComponent
+  ],
+  imports: [
+    CommonModule
+  ],
+  exports:[
+    DashboardComponent
+  ]
+})
+-------------------------
+colocar no app.component.html, a tag do selector criado no 
+dashboard.component.ts
+
+h1 {{titlw}}
+<app-dashboard></app-dashboard>  <-- nova linha
+
+-criando servico:
+ng g service dashboard/dados
+
+exporta nno index,ts
+
+
+-no dashboard.module.ts cria o provedor de servicos:
+-------------------------------------------
+import { DadosService } from './dados.service';
+ ,
+  providers:[
+    DadosService
+  ]
+
+------------------------
+-no arquivo dados.service:
+-remove o provided in pra nao ser injetado na raiz:Se
+-quiser deixar pra toda aplicacao deixa o providedIn:'root'
+{
+  providedIn: 'root'
+}
+
+cria as variaveis 
+ readonly dados = [
+   ['Janeiro',33],
+   ['Fevereiro',68],
+   ['Marco',49],
+   ['Abril',15],
+   ['Maio',80],
+   ['Junho',27],
+   
+  ];
+..
+.
+  obterDados():Observable<any>{
+    return new Observable(observable =>{
+      //observable na compuacao reativa,so responde qunado necessario
+      //next() - metodo obrigatorio,depois a instancia do obj
+      //permite o processamnento dos dados,quando novo dado esta disponivel
+      //next()-notifica quando um novo dado esta disponivel 
+      observable.next(this.dados);
+      //complete()-  encerra quando nao tem mais dados para vir
+      observable.complete();
+    });
+  }//obter dados
+
+//vamos usar api do google
+//https://developers.google.com/chart
+
+
+criar em dashboard.component.html
+<div id="pie_chart"></div>
+<div id="3d_pie_chart"></div>
+<div id="donut_chart"></div>
+<div id="bar_chart"></div>
+<div id="line_chart"></div>
+<div id="column_chart"></div>
+
+-em dashboard.component.ts:
+
+cria o servico no constructor e importa o dados,.service
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
